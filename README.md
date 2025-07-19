@@ -1,233 +1,210 @@
-# ToDo API
+Este proyecto fue hecho usando de base al proyecto modelo que se nos fue facilitado del modulo de backend, ya que al tratar de ejecutar las migraciones presentaba distintos problemas de compatibilidad,
+asi que opte por crearlo de 0 usando la estructura para guiarme, en este README explicare que es el proyecto, como funciona y las herramientas necesarias, cabe aclarar que use los mismos requerimientos que el proyecto original asi que lo mas seguro es que se ejecute sin problemas.
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-Framework-green)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+ToDo API Personal
 
----
+Tecnologías Usadas
+   
+   Python 3.9+
 
-## Descripción General
+   FastAPI
 
-**ToDo API DIP** es una API RESTful desarrollada en **Python** usando el framework **FastAPI**. Este proyecto fue creado como parte del Diplomado Full Stack Web Developer en URBE, y está pensado para servir de backend robusto, escalable y didáctico para la gestión de tareas (ToDo) en aplicaciones web modernas. El objetivo es que estudiantes comprendan tanto los principios de las APIs REST como la integración con bases de datos reales y la estructuración profesional de proyectos.
+   SQLAlchemy ORM
 
----
+   PostgreSQL
 
-## Tabla de Contenidos
+   Alembic (migraciones)
 
-- [Características Principales](#características-principales)
-- [Arquitectura del Proyecto](#arquitectura-del-proyecto)
-- [Instalación y Puesta en Marcha](#instalación-y-puesta-en-marcha)
-- [Uso Básico de la API](#uso-básico-de-la-api)
-- [Estructura de Carpetas](#estructura-de-carpetas)
-- [Tecnologías y Herramientas](#tecnologías-y-herramientas)
-- [Notas para Estudiantes](#notas-para-estudiantes)
-- [Tarea Evaluativa: Sistema de Etiquetas (Tags)](#tarea-evaluativa-sistema-de-etiquetas-tags)
+   Pydantic (validación)
 
----
+   Uvicorn (servidor ASGI)
 
-## Características Principales
+   JSON Web Token (JWT) para autenticación
 
-- Crear tareas con título y descripción.
-- Consultar todas las tareas creadas.
-- Almacenar las tareas en una base de datos PostgreSQL.
-- Validación de datos usando Pydantic.
-- Arquitectura modular para facilitar la escalabilidad y el mantenimiento.
-- Migraciones de base de datos profesionales usando Alembic.
-- Documentación automática de la API con Swagger y Redoc.
-- Control de CORS para acceso seguro desde el frontend.
+   Git para control de versiones
 
----
+Descripción General
 
-## Arquitectura del Proyecto
+ToDo API Personal es una API RESTful desarrollada en Python usando el framework FastAPI para gestionar tareas con un sistema avanzado de etiquetas (tags). El proyecto implementa autenticación con usuarios, manejo de relaciones muchos a muchos entre tareas y etiquetas, y una arquitectura modular y escalable.
 
-El proyecto está estructurado de forma modular siguiendo buenas prácticas para aplicaciones profesionales en Python y FastAPI:
+Este backend fue construido con fines educativos y como proyecto funcional para gestionar tareas con control de usuarios, etiquetas y filtrado avanzado, incluyendo migraciones con Alembic.
 
-- **app.py**: Punto de entrada principal de la aplicación. Aquí se inicializa FastAPI, se configuran middlewares (como CORS), y se incluyen las rutas principales de la API.
-- **routes/**: Carpeta donde se encuentran los routers que gestionan las rutas relacionadas a tareas y usuarios.
-- **database.py**: Archivo de configuración para la conexión a la base de datos y definición del motor SQLAlchemy.
-- **models/**: Definición de los modelos de datos (ORM) utilizados para mapear la base de datos.
-- **schemas/**: Definición de los esquemas de validación de entrada/salida (usando Pydantic).
-- **alembic/**: Gestión de migraciones de la base de datos.
+Tabla de Contenidos:
 
----
+   Características Principales
 
-## Instalación y Puesta en Marcha
+   Arquitectura del Proyecto
 
-Sigue estos pasos para levantar el proyecto en tu entorno local:
+   Instalación y Puesta en Marcha
 
-1. **Clona el repositorio:**
+   Uso de la API
 
-   ```bash
-   git clone https://github.com/itsronalds/todo-api-dip.git
-   cd todo-api-dip
-   ```
+   Estructura del Proyecto
 
-2. **Crea un entorno virtual e instala las dependencias:**
+   Tecnologías Usadas
 
-   ```bash
-   python -m venv venv
-   # En Windows:
-   venv\Scripts\activate
-   # En Unix/Mac:
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
+   Notas
 
-3. **Configura la base de datos PostgreSQL:**
 
-   - Crea una base de datos (por ejemplo, `todo_db`).
-   - Crea un archivo `.env` con tus credenciales de conexión, por ejemplo:
-     ```
-     DB_USER=
-     DB_PASSWORD=
-     DB_HOST=
-     DB_NAME=
-     TOKEN_KEY=
-     TOKEN_ALGORITHM=HS256
-     ```
+Características Principales:
 
-4. **Ejecuta las migraciones con Alembic:**
+   Gestión completa de usuarios con autenticación.
 
-   ```bash
-   alembic upgrade head
-   ```
+   CRUD para tareas: creación, consulta, edición, eliminación.
 
-5. **Inicia la aplicación:**
+   Sistema de etiquetas con relación muchos a muchos con tareas.
 
-   ```bash
-   uvicorn app:app --reload
-   ```
+   Creación y edición de tareas con asociación/desasociación de etiquetas.
 
-6. **Accede a la documentación interactiva:**
-   - [Swagger UI (localhost:8000/docs)](http://localhost:8000/docs)
-   - [ReDoc (localhost:8000/redoc)](http://localhost:8000/redoc)
+   Filtrado de tareas por etiquetas (por uno o varios tags).
 
----
+   Validación y serialización con Pydantic.
 
-## Uso Básico de la API
+   Migraciones gestionadas con Alembic para mantener la base de datos sincronizada.
 
-Una vez tengas la aplicación corriendo, puedes interactuar fácilmente con la API a través de su documentación interactiva.
+   Seguridad básica con manejo de tokens JWT (configurable).
 
-### ¿Cómo probar los endpoints?
+   Uso de SQLAlchemy ORM para manejo de base de datos relacional PostgreSQL.
 
-1. **Abre tu navegador web y accede a:**  
-   [http://localhost:8000/docs](http://localhost:8000/docs)
 
-2. Ahí verás una interfaz llamada **Swagger UI** donde se listan todos los endpoints disponibles.  
-   Desde esa interfaz puedes probar cada funcionalidad de la API de forma gráfica, viendo ejemplos de entradas y salidas, y ejecutando peticiones directamente.
+Arquitectura del Proyecto:
+   
+   app.py: Inicialización de la aplicación FastAPI, configuración de middlewares y registro de routers.
 
-3. Si deseas ver una documentación más detallada, puedes visitar:  
-   [http://localhost:8000/redoc](http://localhost:8000/redoc)
+   database.py: Configuración y conexión a la base de datos con SQLAlchemy.
 
-### Ejemplo de flujo básico
+   models/: Modelos ORM para usuarios, tareas, etiquetas y tablas asociativas.
 
-- **Crear una tarea:**  
-  En Swagger UI, busca el endpoint para crear tareas (usualmente `POST /tasks/create`), haz clic en "Try it out", rellena los campos requeridos (por ejemplo, título y descripción) y ejecuta la petición.
-- **Ver todas las tareas:**  
-  Busca el endpoint para listar tareas (`GET /tasks`), haz clic en "Try it out" y luego "Execute" para ver la respuesta.
+   schemas/: Definición de esquemas Pydantic para validación y serialización de datos de entrada/salida.
 
----
+   routes/: Rutas y lógica de endpoints REST para tareas, etiquetas y usuarios.
 
-## Estructura de Carpetas
+   alembic/: Carpeta con migraciones automáticas para cambios en la base de datos.
 
-```
-todo-api-dip/
+   utils/: Funciones auxiliares, autenticación y dependencias.
+
+   .env: Variables de entorno con configuración sensible (base de datos, claves JWT, etc.).
+
+Estructura del Proyecto:
+todoapi/
 │
 ├── app.py
 ├── database.py
 ├── requirements.txt
-├── .env.example
+├── .env
+├── alembic/
+│   └── versions/
+├── models/
+│   ├── task.py
+│   ├── tag.py
+│   ├── user.py
+├── schemas/
+│   ├── task.py
+│   ├── tag.py
+│   ├── user.py
 ├── routes/
 │   ├── task.py
-│   └── user.py
-├── models/
-│   └── task.py
-│   └── user.py
-├── schemas/
-│   └── task.py
-│   └── user.py
-└── alembic/
-    └── ...
-```
+│   ├── tag.py
+│   ├── user.py
+├── utils/
+│   └── auth.py
+└── README.md
 
----
 
-## Tecnologías y Herramientas
+Instalación:
+   
+   git clone https://github.com/IchungaOwO/todoapi.git
+   
+   cd todoapi
 
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [SQLAlchemy](https://www.sqlalchemy.org/)
-- [Pydantic](https://pydantic-docs.helpmanual.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Alembic](https://alembic.sqlalchemy.org/)
-- [Uvicorn](https://www.uvicorn.org/)
-- [Psycopg2](https://pypi.org/project/psycopg2/)
-- [JSON Web Token](https://pypi.org/project/jsonwebtoken/)
+Crea un entorno virtual e instala dependencias:
 
----
+   python -m venv venv
 
-## Tarea Evaluativa: Sistema de Etiquetas (Tags)
+   pip install -r requirements.txt
 
-### **Descripción del Reto**
+Configura la base de datos PostgreSQL y el archivo .env con tus credenciales:
 
-El objetivo de esta tarea es que extiendas la funcionalidad de la ToDo API para que las tareas puedan tener etiquetas asociadas. Las etiquetas (o "tags") son palabras clave o categorías que ayudan a organizar y clasificar las tareas. Este sistema es muy útil en aplicaciones reales, ya que permite filtrar, buscar y agrupar tareas de manera eficiente y flexible.
+   DB_USER=tu_usuario
+   DB_PASSWORD=tu_password
+   DB_HOST=localhost
+   DB_NAME=nombre_base_de_datos
+   TOKEN_KEY=clave_secreta_jwt
+   TOKEN_ALGORITHM=HS256
 
-### **¿Qué aprenderás con este reto?**
+Ejecuta migraciones para crear las tablas:
+   
+   alembic upgrade head
 
-- Cómo crear relaciones muchos a muchos en bases de datos relacionales usando SQLAlchemy y Alembic.
-- Cómo diseñar nuevos modelos y migraciones para expandir tu base de datos.
-- Cómo crear y documentar nuevos endpoints RESTful en FastAPI.
-- Cómo trabajar con filtros y consultas más avanzadas en tus endpoints.
+Ejecuta la aplicación:
+   
+   uvicorn app:app --reload
 
-### **Requisitos de la tarea**
+Uso de la API:
+   
+   Para las pruebas y usos de los endpoints, utilice Postman por temas de comodidad y manejo de errores, asi que recomiendo el uso de este mismo al momento de hacer las consultas
 
-1. **Modelo de Etiquetas**
+Endpoints principales:
 
-   - Crea un nuevo modelo llamado `Tag` (o `Etiqueta`).
-   - Este modelo debe tener, al menos, un campo `nombre` (name) que sea único.
-   - Implementa una relación “muchos a muchos” entre tareas y etiquetas: una tarea puede tener varias etiquetas y una etiqueta puede ser utilizada por varias tareas.
-   - Deberás crear una tabla intermedia (de asociación) para esta relación.
+   POST /users/register: Registro de nuevo usuario.
 
-2. **Migraciones**
+   POST /users/login: Autenticación y obtención de token JWT.
 
-   - Genera las migraciones necesarias usando Alembic para crear las nuevas tablas en la base de datos.
+   GET /tasks: Listar tareas del usuario autenticado, opcionalmente filtradas por etiquetas.
 
-3. **Endpoints CRUD de Etiquetas**
+   POST /tasks: Crear nueva tarea con opcional asociación de etiquetas.
 
-   - Crea endpoints para crear, listar, actualizar y eliminar etiquetas.
-   - Permite que los usuarios asocien y desasocien etiquetas a las tareas existentes mediante endpoints apropiados (puede ser al crear/editar una tarea o mediante endpoints específicos).
-   - Asegúrate de que los nombres de las etiquetas sean únicos; no debe haber dos etiquetas con el mismo nombre.
+   GET /tasks/{task_id}: Obtener tarea por ID.
 
-4. **Filtrado de Tareas por Etiqueta**
+   PUT /{task_id}: Actualizar tarea, incluyendo sus etiquetas.
 
-   - Modifica el endpoint que lista las tareas para que acepte un parámetro opcional que permita filtrar las tareas por una o más etiquetas (por ejemplo, mostrando solo las tareas que tengan la etiqueta “urgente”).
-   - Puedes hacerlo mediante parámetros en la URL, como `GET /tasks?tags=urgente,trabajo`.
+   DELETE /{task_id}: Eliminar tarea.
 
-5. **Documentación**
-   - Actualiza la documentación interactiva (Swagger UI) para que los usuarios puedan ver y probar los nuevos endpoints relacionados con etiquetas y la funcionalidad de filtrado por etiquetas.
-   - Incluye ejemplos claros de cómo asociar etiquetas a tareas y cómo filtrar usando etiquetas.
+   CRUD similar para etiquetas en /tags.
 
-### **Guía de implementación**
+Ejemplo de creacion de usuario:
 
-- **Paso 1:** Crea el modelo `Tag` en el archivo correspondiente dentro de la carpeta `models/`.
-- **Paso 2:** Define la relación muchos a muchos entre tareas y etiquetas (posiblemente con una tabla intermedia).
-- **Paso 3:** Genera y aplica la migración con Alembic para reflejar estos cambios en la base de datos.
-- **Paso 4:** Crea los esquemas Pydantic necesarios en la carpeta `schemas/`.
-- **Paso 5:** Implementa los endpoints CRUD de etiquetas y la lógica para asociar/desasociar etiquetas en los archivos de rutas correspondientes.
-- **Paso 6:** Modifica el endpoint de listado de tareas para incluir el filtrado por etiquetas.
-- **Paso 7:** Actualiza la documentación y verifica que los cambios funcionen desde Swagger UI.
+{
+    "username": "juanperez",
+    "email": "juan.perez@example.com",
+    "password": "12345678"
+}
 
-### **Bonus (opcional)**
+los datos que deberia colocar en el login son estos:
 
-- Permite que los usuarios creen etiquetas nuevas directamente al crear o editar una tarea.
-- Implementa validaciones adicionales para evitar etiquetas vacías o muy largas.
-- Permite eliminar una etiqueta solamente si no está asociada a ninguna tarea.
+   "username": "juanperez",
+   "password": "12345678"
+   
+En el caso que este usando postman, no olvide colocar los siguientes datos en el apartado de header una vez reciba su token de la siguiente forma
 
-### **Aspectos a evaluar**
+Key: Authorization Value: Bearer <tu_token_jwt>
 
-- Correcta implementación de la relación muchos a muchos en la base de datos.
-- Endpoints funcionales y seguros.
-- Migraciones limpias y consistentes.
-- Documentación clara y comprensible.
-- Código bien estructurado y siguiendo el estilo del proyecto.
+Ejemplo de creacion de tags:
 
----
+{
+    "name": "urgente"
+}
+
+
+Ejemplo de creación de tarea con etiquetas:
+
+{
+  "title": "Comprar libros",
+  "description": "Ir a la librería y comprar libros de programación.",
+  "tag_ids": [1]
+}
+
+El PUT se hace de la misma manera, no olvidar que al hacer tanto PUT como Delate solo basta que ponga el id del task que desee cambiar, no hace falta hacer /tasks/1, ya que la consulta daria error,
+si eso le molesta puede ir a router, tasks, y cambiar la consulta para que se ejecute de esa manera, yo no lo hice por comodidad.
+
+Notas
+   La autenticación requiere que los endpoints protegidos usen el token JWT generado al iniciar sesión.
+
+   Los esquemas Pydantic permiten que la API valide y documente automáticamente las entradas y salidas.
+
+   Las etiquetas son únicas y pueden asociarse a múltiples tareas y viceversa.
+
+   El filtrado de tareas por etiquetas es opcional y permite pasar varios IDs de etiquetas para filtrar.
+
+Y eso es todo el proyecto, espero haber sido claro y lo mas explicativo posible, muchas gracias por leer hasta aqui, espero que no le explote al ejecutar :)
+
